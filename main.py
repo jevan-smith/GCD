@@ -95,6 +95,72 @@ def ica_avg(n):
         sum += ica_count(n, i)
     return sum / n
 
+def fib_seq(k):
+	"""
+	This function computes fibonacci sequence
+	Input: one non-negative number
+	Output: returns fibonacci sequence in an array
+	"""
+	array = [0, 1]
+	for i in range(0, k):
+		total = array[i] + array[i+1]
+		array.append(total)
+	return array
 
-print("Definition 1 Example:", gcd_avg(5))
-print("Definition 2 Example:", ica_avg(5))
+
+""" 
+Main program loop
+"""
+print("")
+while True:
+    print("[1] Enter 'User testing mode'")
+    print("[2] Enter 'Scatter plot mode'")
+    print("[3] Exit")
+
+    option = int(input("Option: "))
+    print("")
+
+    if option == 1:
+    	while True:
+    		print("[1] Task 1")
+    		print("[2] Task 2")
+    		print("[3] Task 3")
+    		print("[4] Go Back")
+    		print("[5] Exit")
+
+    		option = int(input("Option: "))
+    		print("")
+
+    		if option == 1:
+    			n = int(input("Enter positive value for 'n': "))
+    			print("Average number of Modulo Divisions GCD is:", gcd_avg(n))
+    			print("Average number of Divisions GCD is:", ica_avg(n))
+    			print("")
+    		elif option == 2:
+    			k = int(input("Enter positive value for 'k': "))
+    			fib = fib_seq(k)
+    			print("Fibonacci Sequence:", fib)
+    			total_Mod = 0
+    			for i in range(k):
+    				total_Mod += gcd_count(fib[i+1], fib[i])
+    			print("Total number of Modulo Divisions is:", total_Mod)
+    			print("")
+    		elif option == 3:
+    			print("task3\n")
+    		elif option == 4:
+    			break
+    		elif option == 5:
+    			print("Goodbye!\n")
+    			exit()
+    		else:
+    			print("Invalid input, try again.\n")
+    elif option == 2:
+        print("Test2\n")
+    elif option == 3:
+        print("Goodbye!\n")
+        exit()
+    else:
+        print("Invalid input, try again.\n")
+""" 
+End of Main program loop
+"""
