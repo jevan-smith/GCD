@@ -7,7 +7,7 @@ import matplotlib.patches as mpatches
 import random
 import time
 
-''' #Debug code, save for later
+#Debug code, save for later
 def gcd(m, n):
     """
     Euclid's algorithm for computing gcd
@@ -20,7 +20,7 @@ def gcd(m, n):
         n = temp
     return m
 
-
+''' 
 def ica(m, n):
     """
     Consecutive integer checking algorithm for computing gcd
@@ -125,57 +125,45 @@ def sieve(x):
     return result
 
 
-def primefactors(x):
-    i = 2
+def primefactors2(x):
     result = []
-    while x != 1:
-        while x % i == 0:
-            result.append(i)
-            x = x/i
-        i += 1
-    return result
-
-
-def gcd_middle_array(m, n):
-    m_primefactors = primefactors(m)
-    n_primefactors = primefactors(n)
-    result = []
-    i = 0
-    j = 0
-    while i < len(m_primefactors):
-        a = 1
-        while j < len(n_primefactors):
-            if m_primefactors[i] == n_primefactors[j]:
-                result.append(m_primefactors[i])
-                m_primefactors.pop(i)
-                n_primefactors.pop(j)
-                a = 0
+    array = sieve(x)
+    value = x
+    temp = x
+    for i in range(len(array)):
+        while value not in array:
+            if value % array[i] == 0:
+                value = temp // array[i]
+                temp = value
+                result.append(array[i])
+            else:
                 break
-            j += 1
-        j = 0
-        i += a
-    return result
+        if value in array:
+            result.append(value)
+            return result
 
 
 def gcd_middle(m, n):
-    m_primefactors = primefactors(m)
-    n_primefactors = primefactors(n)
+    pos1 = 0
+    pos2 = 0
+    result = []
     total = 1
-    i = 0
-    j = 0
-    while i < len(m_primefactors):
-        a = 1
-        while j < len(n_primefactors):
-            if m_primefactors[i] == n_primefactors[j]:
-                total *= m_primefactors[i]
-                m_primefactors.pop(i)
-                n_primefactors.pop(j)
-                a = 0
-                break
-            j += 1
-        j = 0
-        i += a
-    return total
+    m_primefactors = primefactors2(m)
+    n_primefactors = primefactors2(n)
+
+    for i in range(max(len(m_primefactors), len(n_primefactors))):
+        if pos2 == len(n_primefactors) or pos1 == len(m_primefactors):
+            return result, total
+        elif m_primefactors[pos1] == n_primefactors[pos2]:
+            total *= n_primefactors[pos2]
+            result.append(n_primefactors[pos2])
+            pos1 += 1
+            pos2 += 1
+        elif m_primefactors[pos1] > n_primefactors[pos2]:
+            pos2 += 1
+        else:
+            pos1 += 1
+    return result, total
 
 
 def fib_seq(k):
@@ -184,8 +172,9 @@ def fib_seq(k):
     Input: one non-negative number
     Output: returns fibonacci sequence in an array
     """
+    new_k = k - 1
     array = [1, 1]
-    for i in range(0, k-1):
+    for i in range(0, new_k-1):
         total = array[i] + array[i+1]
         array.append(total)
     return array
@@ -232,7 +221,7 @@ while True:
                 fib = fib_seq(k)
                 print("Fibonacci Sequence:", fib)
                 total_Mod = 0
-                for i in range(k):
+                for i in range(0, k-2):
                     total_Mod += gcd_count(fib[i+1], fib[i])
                 end = time.time()
                 print("Total number of Modulo Divisions is:", total_Mod)
@@ -244,15 +233,20 @@ while True:
                 print("Mode: User testing")
                 m = int(input("Enter positive value for 'm': "))
                 n = int(input("Enter positive value for 'n': "))
-                x = gcd_middle_array(m, n)
-                y = gcd_middle(m, n)
-                print("Middle-school GCD(", m, ",", n, ") = [", sep="", end="")
-                for i in range(len(x)):
-                    if i == len(x)-1:
-                        print(x[i], end="")
-                    else:
-                        print(x[i], " * ", sep="", end="")
-                print("] =", y)
+                x = gcd_middle(m, n)[0]
+                y = gcd_middle(m, n)[1]
+                print("Prime factors for 'm':", primefactors2(m))
+                print("Prime factors for 'n':", primefactors2(n))
+                print("Middle-school GCD(", m, ",", n, ") = ", sep="", end="")
+                if len(x) != 0:
+                    for i in range(len(x)):
+                        if i == len(x)-1:
+                            print(x[i], end="")
+                        else:
+                            print(x[i], " * ", sep="", end="")
+                else:
+                    print("1", end="")
+                print(" =", y)
                 print("")
 
             elif option == 4:
