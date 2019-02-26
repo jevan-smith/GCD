@@ -148,12 +148,14 @@ def gcd_middle(m, n):
     pos2 = 0
     result = []
     total = 1
+    counter = 0
     m_primefactors = primefactors2(m)
     n_primefactors = primefactors2(n)
 
     for i in range(max(len(m_primefactors), len(n_primefactors))):
+        counter += 1
         if pos2 == len(n_primefactors) or pos1 == len(m_primefactors):
-            return result, total
+            return result, total, counter
         elif m_primefactors[pos1] == n_primefactors[pos2]:
             total *= n_primefactors[pos2]
             result.append(n_primefactors[pos2])
@@ -163,7 +165,7 @@ def gcd_middle(m, n):
             pos2 += 1
         else:
             pos1 += 1
-    return result, total
+    return result, total, counter
 
 
 def fib_seq(k):
@@ -207,7 +209,6 @@ while True:
 
             if option == 1:
                 print("Task 1: ")
-                print("Mode: User testing")
                 n = int(input("Enter positive value for 'n': "))
                 print("Average number of Modulo Divisions GCD is:", gcd_avg(n))
                 print("Average number of Divisions GCD is:", ica_avg(n))
@@ -215,7 +216,6 @@ while True:
 
             elif option == 2:
                 print("Task 2: ")
-                print("Mode: User testing")
                 k = int(input("Enter positive value for 'k': "))
                 start = time.time()
                 fib = fib_seq(k)
@@ -230,7 +230,6 @@ while True:
 
             elif option == 3:
                 print("Task 3: ")
-                print("Mode: User testing")
                 m = int(input("Enter positive value for 'm': "))
                 n = int(input("Enter positive value for 'n': "))
                 x = gcd_middle(m, n)[0]
@@ -273,53 +272,103 @@ while True:
 
             if option == 1:
                 print("Task 1: ")
-                print("Mode: Scatter plot")
                 x = []
                 y = []
                 x1 = []
                 y1 = []
-                for i in range(50):
-                    n = random.randint(1, 30)
-                    n2 = random.randint(1, 30)
+                for i in range(1, 30):
+                    n = i
+                    n2 = i
                     gcd = gcd_avg(n)
                     ica = ica_avg(n2)
                     x.append(n)
                     y.append(gcd)
                     x1.append(n2)
                     y1.append(ica)
+
+                print("Plotted Points Listed Below: ")
+                print("Euclid Average's:", y)
+                print("Consecutive Integer Average's:", y1)
+
                 plt.plot(x, y, 'bs')
                 plt.plot(x1, y1, 'ro')
                 plt.axis([0, 30, 0, 10])
-                blue_patch = mpatches.Patch(color='blue', label='Mod Division GCD')
-                red_patch = mpatches.Patch(color='red', label='Division GCD')
+                blue_patch = mpatches.Patch(color='blue', label="Euclid's Algorithm")
+                red_patch = mpatches.Patch(color='red', label='Consecutive Integer Algorithm')
                 plt.legend(handles=[red_patch, blue_patch])
-                plt.xlabel('n')
-                plt.ylabel('Averages')
+                plt.title("Average-Case Efficiencies")
+                plt.xlabel('Input Size "n"')
+                plt.ylabel('Average Mod/Divisions')
                 plt.show()
+                print("")
 
             elif option == 2:
                 print("Task 2: ")
-                print("Mode: Scatter plot")
+                print("")
                 x = []
                 y = []
-                k = random.randint(30, 50)
+                y1 = []
+                k = 20
                 fib = fib_seq(k)
                 total_Mod = 0
-                print("Fibonacci Sequence:", fib)
-                for i in range(k):
-                    total_Mod += gcd_count(fib[i+1], fib[i])
-                    x.append(i)
+                print("Plotted Points Listed Below:")
+                for i in range(0, k-2):
+                    start = time.time()
+                    total_Mod = gcd_count(fib[i+1], fib[i])
+                    end = time.time()
+                    x.append(fib[i+1])
                     y.append(total_Mod)
+                    y1.append(start - end)
+
+                #  First Graph
+                print("Modulo Division Plot Points:")
+                print("Value's of 'm':", x)
+                print("Number of Modulo Divisions:", y)
                 plt.plot(x, y, 'bs')
-                plt.axis([0, 30, 0, 100])
-                plt.xlabel('k')
-                plt.ylabel('Number of modulo divisions')
+                plt.axis([-500, 5000, 0, 20])
+                plt.title("Worst-Case Efficiency For Euclid's Algorithm")
+                plt.xlabel('Value of "m"')
+                plt.ylabel('Number of Modulo Divisions')
                 plt.show()
+
+                print("")
+
+                #  Second Graph
+                print("Time Based Plot Points:")
+                print("Value's of 'm':", x)
+                print("Time Taken:", y1)
+                plt.plot(x, y1, 'ro')
+                plt.axis([-500, 5000, 0, 20])
+                plt.title("Worst-Case Efficiency For Euclid's Algorithm")
+                plt.xlabel('Value of "m"')
+                plt.ylabel('Time Taken')
+                plt.show()
+
+                print("")
 
             elif option == 3:
                 print("Task 3: ")
-                print("Mode: Scatter plot")
                 print("")
+                size = 200
+                x = []
+                y = []
+
+                for i in range(1, 1000):
+                    m = random.randint(1000, 2000)
+                    n = random.randint(1, 1000)
+                    x_temp = gcd_middle(m, n)[2]
+                    y_temp = gcd_middle(m, n)[1]
+                    print(x_temp, y_temp)
+                    print(m, n)
+                    x.append(x_temp)
+                    y.append(y_temp)
+
+                plt.plot(x, y, 'ro')
+                plt.axis([0, 20, 0, 300])
+                plt.title("Common Factor Algorithm")
+                plt.xlabel('count')
+                plt.ylabel('total')
+                plt.show()
 
             elif option == 4:
                 break
