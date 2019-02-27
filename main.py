@@ -7,36 +7,6 @@ import matplotlib.patches as mpatches
 import random
 import time
 
-#Debug code, save for later
-def gcd(m, n):
-    """
-    Euclid's algorithm for computing gcd
-    Input: two non-negative numbers
-    Output: Greatest common divisor of m and n
-    """
-    while n != 0:
-        temp = m % n
-        m = n
-        n = temp
-    return m
-
-''' 
-def ica(m, n):
-    """
-    Consecutive integer checking algorithm for computing gcd
-    Input: two non-negative numbers
-    Output: Greatest common divisor of m and n
-    """
-    temp = min(m, n)
-    while True:
-        m_temp = m % temp
-        if m_temp == 0:
-            n_temp = n % temp
-            if n_temp == 0:
-                return temp
-        temp -= 1
-'''
-
 
 def gcd_count(m, n):
     """
@@ -101,6 +71,13 @@ def ica_avg(n):
 
 
 def sieve(x):
+    """
+    This function computes prime numbers using sieve's
+    algorithm
+    Input: one non-negative number
+    Output: returns array of prime numbers up to the value
+    of x
+    """
     result = []
     prime = []
     p = 2
@@ -125,7 +102,13 @@ def sieve(x):
     return result
 
 
-def primefactors2(x):
+def primefactors(x):
+    """
+    This function computes prime factors
+    Input: one non-negative number
+    Output: returns array of prime factors, based on
+    the value of x
+    """
     result = []
     array = sieve(x)
     value = x
@@ -144,28 +127,50 @@ def primefactors2(x):
 
 
 def gcd_middle(m, n):
+    """
+    This function computes gcd using the
+    Middle-school procedure
+    Input: Integer values of m, and n (non-negative number only)
+    Output: result returns Array, total returns gcd value, counter
+    returns total comparisons, and max_value
+    returns max(len(m), len(n))
+    """
     pos1 = 0
     pos2 = 0
     result = []
     total = 1
     counter = 0
-    m_primefactors = primefactors2(m)
-    n_primefactors = primefactors2(n)
+    m_primefactors = primefactors(m)
+    n_primefactors = primefactors(n)
+
+    try:
+        max_value = max(len(m_primefactors), len(n_primefactors))
+        #  max_value = len(m_primefactors) + len(n_primefactors)
+    except:
+        print("ERROR!, DEBUG VALUES BELOW:")
+        print("value of m:", m)
+        print("value of n:", n)
+        print("prime factors of m:", m_primefactors)
+        print("prime factors of n:", n_primefactors)
+        return result, total, counter, 0
 
     for i in range(max(len(m_primefactors), len(n_primefactors))):
-        counter += 1
         if pos2 == len(n_primefactors) or pos1 == len(m_primefactors):
-            return result, total, counter
+            counter += 1
+            return result, total, counter, max_value
         elif m_primefactors[pos1] == n_primefactors[pos2]:
+            counter += 2  # Count the previous comparison
             total *= n_primefactors[pos2]
             result.append(n_primefactors[pos2])
             pos1 += 1
             pos2 += 1
         elif m_primefactors[pos1] > n_primefactors[pos2]:
+            counter += 3  # Count the previous comparisons
             pos2 += 1
         else:
+            counter += 3  # Count the previous comparisons
             pos1 += 1
-    return result, total, counter
+    return result, total, counter, max_value
 
 
 def fib_seq(k):
@@ -225,7 +230,7 @@ while True:
                     total_Mod += gcd_count(fib[i+1], fib[i])
                 end = time.time()
                 print("Total number of Modulo Divisions is:", total_Mod)
-                print("Time Taken to Compute total # of modulo divisions:", end - start)
+                print("Time Taken to output result:", end - start)
                 print("")
 
             elif option == 3:
@@ -234,8 +239,12 @@ while True:
                 n = int(input("Enter positive value for 'n': "))
                 x = gcd_middle(m, n)[0]
                 y = gcd_middle(m, n)[1]
-                print("Prime factors for 'm':", primefactors2(m))
-                print("Prime factors for 'n':", primefactors2(n))
+                z = sieve(m)
+                z2 = sieve(n)
+                print("Sieve's Algorithm based on 'm':", z)
+                print("Sieve's Algorithm based on 'n':", z2)
+                print("Prime factors for 'm':", primefactors(m))
+                print("Prime factors for 'n':", primefactors(n))
                 print("Middle-school GCD(", m, ",", n, ") = ", sep="", end="")
                 if len(x) != 0:
                     for i in range(len(x)):
@@ -296,7 +305,7 @@ while True:
                 blue_patch = mpatches.Patch(color='blue', label="Euclid's Algorithm")
                 red_patch = mpatches.Patch(color='red', label='Consecutive Integer Algorithm')
                 plt.legend(handles=[red_patch, blue_patch])
-                plt.title("Average-Case Efficiencies")
+                plt.title("Average-Case Efficiencies Graph")
                 plt.xlabel('Input Size "n"')
                 plt.ylabel('Average Mod/Divisions')
                 plt.show()
@@ -304,7 +313,6 @@ while True:
 
             elif option == 2:
                 print("Task 2: ")
-                print("")
                 x = []
                 y = []
                 y1 = []
@@ -326,7 +334,7 @@ while True:
                 print("Number of Modulo Divisions:", y)
                 plt.plot(x, y, 'bs')
                 plt.axis([-500, 5000, 0, 20])
-                plt.title("Worst-Case Efficiency For Euclid's Algorithm")
+                plt.title("Worst-Case Efficiency For Euclid's Algorithm Graph")
                 plt.xlabel('Value of "m"')
                 plt.ylabel('Number of Modulo Divisions')
                 plt.show()
@@ -339,7 +347,7 @@ while True:
                 print("Time Taken:", y1)
                 plt.plot(x, y1, 'ro')
                 plt.axis([-500, 5000, 0, 20])
-                plt.title("Worst-Case Efficiency For Euclid's Algorithm")
+                plt.title("Worst-Case Efficiency For Euclid's Algorithm Graph")
                 plt.xlabel('Value of "m"')
                 plt.ylabel('Time Taken')
                 plt.show()
@@ -348,27 +356,30 @@ while True:
 
             elif option == 3:
                 print("Task 3: ")
-                print("")
                 size = 200
                 x = []
                 y = []
 
+                print("-> LOADING GRAPH <-")
                 for i in range(1, 1000):
-                    m = random.randint(1000, 2000)
-                    n = random.randint(1, 1000)
-                    x_temp = gcd_middle(m, n)[2]
-                    y_temp = gcd_middle(m, n)[1]
-                    print(x_temp, y_temp)
-                    print(m, n)
+                    m = random.randint(2, 4000)
+                    n = random.randint(2, 4000)
+                    x_temp = gcd_middle(m, n)[3]
+                    y_temp = gcd_middle(m, n)[2]
+                    #  print(x_temp, y_temp)
                     x.append(x_temp)
                     y.append(y_temp)
 
+                print("-> GRAPH LOADED <-")
+                print("Max List Values:", x)
+                print("Number of Comparisons:", y)
                 plt.plot(x, y, 'ro')
-                plt.axis([0, 20, 0, 300])
-                plt.title("Common Factor Algorithm")
-                plt.xlabel('count')
-                plt.ylabel('total')
+                plt.axis([0, 12, 0, 31])
+                plt.title("Common Factor Algorithm Complexity Graph")
+                plt.xlabel('Max List Value')
+                plt.ylabel('Number of Comparisons')
                 plt.show()
+                print("")
 
             elif option == 4:
                 break
