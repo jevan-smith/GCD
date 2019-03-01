@@ -220,7 +220,7 @@ while True:
                 fib = fib_seq(k)
                 print("Fibonacci Sequence:", fib)
                 total_Mod = 0
-                for i in range(0, k-2):
+                for i in range(0, k-1):
                     total_Mod += gcd_count(fib[i+1], fib[i])
                 end = time.time()
                 print("Total number of Modulo Divisions is:", total_Mod)
@@ -361,7 +361,7 @@ while True:
                 fib = fib_seq(k)
                 total_Mod = 0
                 print("Plotted Points Listed Below:")
-                for i in range(0, k-2):
+                for i in range(0, k-1):
                     start = time.time()
                     total_Mod = gcd_count(fib[i+1], fib[i])
                     end = time.time()
