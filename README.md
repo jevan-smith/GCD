@@ -9,8 +9,8 @@ Made by: Jevan, and Juan
 ## Requirements
 - Built using python 3.7
 - matplotlib is required (Version 3.0.2)
--- matplotlib.pyplot
--- matplotlib.patches
+- matplotlib.pyplot
+- matplotlib.patches
 
 ## Expected Outputs Below
 :exclamation: Note to use 'Scatter plot mode', matplotlib must be installed!
