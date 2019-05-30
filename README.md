@@ -1,27 +1,21 @@
-----------------------------------------------------------
-.:GROUP MEMBERS:.
-----------------------------------------------------------
+## Authors
 Made by: Jevan, and Juan
 
+## Project Goals
+1. Implement several algorithms related to computing the GCD(m, n) of two integers m and n. 
+2. Empirically determine the run-time complexity for different kinds of input (average-case / worst-case).
+3. Write a short report summarizing the outcome of project in form of tables and scatter-plots.
 
-----------------------------------------------------------
-.:REQUIREMENTS:.
-----------------------------------------------------------
-- Built using python 3.7, PyCharm (Version 2018.3.5) is recommended
+## Requirements
+- Built using python 3.7
 - matplotlib is required (Version 3.0.2)
 -- matplotlib.pyplot
 -- matplotlib.patches
 
-
-----------------------------------------------------------
-.:EXPECTED OUTPUTS BELOW:.
-----------------------------------------------------------
-*Note to use 'Scatter plot mode', matplotlib must be installed!
+## Expected Outputs Below
+:exclamation: Note to use 'Scatter plot mode', matplotlib must be installed!
 Below is our programs output for 'User testing mode'
-
----------------------------------------------
-.:TEST PROGRAM OUTPUT:.
----------------------------------------------
+<pre>
 [1] Enter 'User testing mode'
 [2] Enter 'Scatter plot mode'
 [3] Exit
